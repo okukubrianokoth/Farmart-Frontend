@@ -20,6 +20,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
+<<<<<<< HEAD
         working-directory: frontendfarmart
         run: npm ci
 
@@ -29,6 +30,17 @@ jobs:
 
       - name: Build app
         working-directory: frontendfarmart
+=======
+		working-directory: frontendfarmart
+        run: npm ci
+
+      - name: Run tests
+		working-directory: frontendfarmart
+        run: npm test -- --watchAll=false
+
+      - name: Build app
+		working-directory: frontendfarmart
+>>>>>>> ffde43a2034dc69bd7c830eb12105afacc66def8
         run: npm run build
 
       - name: Upload production build
