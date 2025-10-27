@@ -21,25 +21,14 @@ const Register = () => {
   const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    console.log('🔍 Register component - Current state:', { 
-      error, 
-      isAuthenticated, 
-      isLoading 
-    });
-    
     if (error) {
-      console.error('❌ Registration error:', error);
-      toast.error(`Registration failed: ${error}`);
+      toast.error(error);
       dispatch(clearError());
     }
   }, [error, dispatch]);
 
   useEffect(() => {
-    console.log('🔍 Register component - Authentication state changed:', isAuthenticated);
-    
     if (isAuthenticated) {
-      console.log('✅ Registration successful - navigating to home');
-      toast.success('Registration successful!');
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
@@ -51,31 +40,9 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('📝 Form submitted with data:', formData);
-    
-    // Basic validation
-    if (!formData.email || !formData.password || !formData.first_name || !formData.last_name) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      toast.error('Password must be at least 6 characters long');
-      return;
-    }
-
-    console.log('🚀 Dispatching register action...');
-    
-    try {
-      // Use unwrap() to get the actual result and catch errors properly
-      const result = await dispatch(register(formData)).unwrap();
-      console.log('🎉 Registration successful with result:', result);
-    } catch (error) {
-      console.error('💥 Registration failed with error:', error);
-      // The error will be handled by the useEffect above
-    }
+    dispatch(register(formData));
   };
 
   return (
@@ -85,7 +52,7 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group">
-              <label>First Name *</label>
+              <label>First Name</label>
               <input
                 type="text"
                 name="first_name"
@@ -95,7 +62,7 @@ const Register = () => {
               />
             </div>
             <div className="form-group">
-              <label>Last Name *</label>
+              <label>Last Name</label>
               <input
                 type="text"
                 name="last_name"
@@ -106,7 +73,7 @@ const Register = () => {
             </div>
           </div>
           <div className="form-group">
-            <label>Email *</label>
+            <label>Email</label>
             <input
               type="email"
               name="email"
@@ -116,13 +83,12 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <label>Password * (min 6 characters)</label>
+            <label>Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              minLength="6"
               required
             />
           </div>
@@ -166,24 +132,9 @@ const Register = () => {
         <p className="auth-link">
           Already have an account? <Link to="/login">Login here</Link>
         </p>
-        
-        {/* Debug info - remove this in production */}
-        <div style={{ 
-          marginTop: '20px', 
-          padding: '15px', 
-          background: '#f5f5f5', 
-          borderRadius: '5px',
-          border: '1px solid #ddd'
-        }}>
-          <h4>🔧 Debug Information:</h4>
-          <p><strong>Loading:</strong> {isLoading ? '✅ Yes' : '❌ No'}</p>
-          <p><strong>Error:</strong> {error || 'None'}</p>
-          <p><strong>Authenticated:</strong> {isAuthenticated ? '✅ Yes' : '❌ No'}</p>
-          <p><strong>Form Data:</strong> {JSON.stringify(formData)}</p>
-        </div>
       </div>
     </div>
   );
 };
 
-export default Register;
+export default Login;
