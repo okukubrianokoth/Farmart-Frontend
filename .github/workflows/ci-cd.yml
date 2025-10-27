@@ -1,4 +1,4 @@
- name: React App CI/CD Pipeline
+name: React App CI/CD Pipeline
 
 on:
   push:
@@ -20,15 +20,15 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-	working-directory: frontendfarmart
+        working-directory: frontendfarmart
         run: npm ci
 
       - name: Run tests
-	working-directory: frontendfarmart
+        working-directory: frontendfarmart
         run: npm test -- --watchAll=false
 
       - name: Build app
-	working-directory: frontendfarmart
+        working-directory: frontendfarmart
         run: npm run build
 
       - name: Upload production build
