@@ -315,7 +315,7 @@ const Cart = () => {
     if (isCheckingOut) return;
     setIsCheckingOut(true);
     try {
-      const response = await cartService.checkout({ shipping_address: user?.address || 'Default address', notes: 'Order from Farmart' });
+      await cartService.checkout({ shipping_address: user?.address || 'Default address', notes: 'Order from Farmart' });
       toast.success('Order placed successfully! 🎉');
       setCartItems([]);
       navigate('/orders');
