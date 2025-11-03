@@ -181,7 +181,7 @@ const Cart = () => {
                   <h3>{item.animal.name}</h3>
                   <p className="item-breed">{item.animal.breed} • {item.animal.animal_type}</p>
                   <p className="item-age">Age: {item.animal.age} months</p>
-                  <p className="item-price">${item.animal.price} each</p>
+                  <p className="item-price">KES{item.animal.price} each</p>
                 </div>
 
                 <div className="item-quantity">
@@ -203,7 +203,7 @@ const Cart = () => {
                 </div>
 
                 <div className="item-total">
-                  <p>${(item.animal.price * item.quantity).toFixed(2)}</p>
+                  <p>Ksh{(item.animal.price * item.quantity).toFixed(2)}</p>
                 </div>
 
                 <div className="item-actions">
@@ -224,7 +224,7 @@ const Cart = () => {
               
               <div className="summary-row">
                 <span>Subtotal:</span>
-                <span>${total.toFixed(2)}</span>
+                <span>Ksh:{total.toFixed(2)}</span>
               </div>
               
               <div className="summary-row">
@@ -234,7 +234,7 @@ const Cart = () => {
               
               <div className="summary-row total">
                 <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
+                <span>Ksh{total.toFixed(2)}</span>
               </div>
 
               <button 
@@ -253,7 +253,6 @@ const Cart = () => {
                 fontSize: '12px',
                 color: '#666'
               }}>
-                <strong>Debug Info:</strong> Backend: localhost:5000 | Frontend: localhost:3000
               </div>
 
               <p className="security-note">

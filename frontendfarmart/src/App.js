@@ -14,6 +14,7 @@ import Animals from './pages/Animals';
 import FarmerDashboard from './pages/FarmerDashboard';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
+import About  from './pages/about';
 
 // Styles
 import './App.css';
@@ -39,6 +40,7 @@ const AppContent = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/animals" element={<Animals />} />
+            <Route path="/about" element={<About />} />
             <Route 
               path="/login" 
               element={!useSelector((state) => state.auth.isAuthenticated) ? <Login /> : <Navigate to="/" />} 

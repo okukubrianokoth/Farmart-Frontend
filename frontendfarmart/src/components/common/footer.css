@@ -1,0 +1,55 @@
+/* src/components/common/Footer.css */
+.farmart-footer {
+  background: #2d5016;
+  color: #ffffff;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+  padding: 0 1rem;
+}
+
+.footer-col h4 {
+  color: #ffc107;
+  margin-bottom: 0.5rem;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin: 0.4rem 0;
+}
+
+.footer-col a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: #ffc107;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 0.8rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}

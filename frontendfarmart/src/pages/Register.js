@@ -179,7 +179,7 @@ const Register = () => {
           <p><strong>Loading:</strong> {isLoading ? '✅ Yes' : '❌ No'}</p>
           <p><strong>Error:</strong> {error || 'None'}</p>
           <p><strong>Authenticated:</strong> {isAuthenticated ? '✅ Yes' : '❌ No'}</p>
-          <p><strong>Form Data:</strong> {JSON.stringify(formData)}</p>
+          
         </div>
       </div>
     </div>

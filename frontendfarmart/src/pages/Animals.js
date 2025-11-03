@@ -4,6 +4,7 @@ import { fetchAnimals } from '../store/slices/animalsSlice';
 import AnimalCard from '../components/animals/AnimalCard';
 import AnimalFilters from '../components/animals/AnimalFilters';
 import './Animals.css';
+import Footer from "../components/common/footer";
 
 const Animals = () => {
   const dispatch = useDispatch();
@@ -77,6 +78,7 @@ const Animals = () => {
           </>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

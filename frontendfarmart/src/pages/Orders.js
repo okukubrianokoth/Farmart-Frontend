@@ -5,6 +5,7 @@ import { orderService } from '../services/orderService';
 import MpesaPayment from '../components/payments/MpesaPayment';
 import { toast } from 'react-toastify';
 import './Orders.css';
+import Footer from '../components/common/footer'
 
 const Orders = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -130,7 +131,7 @@ const Orders = () => {
                       Date: {new Date(order.created_at).toLocaleDateString()}
                     </p>
                     <p className="order-total">
-                      Total: ${order.total_amount}
+                      Total: Ksh{order.total_amount}
                     </p>
                     {order.payment_status && (
                       <p className="order-payment">
@@ -186,11 +187,11 @@ const Orders = () => {
                         <p>
                           Breed: {item.animal?.breed || 'Unknown'} • 
                           Quantity: {item.quantity} • 
-                          Price: ${item.price} each
+                          Price: Ksh{item.price} each
                         </p>
                       </div>
                       <div className="item-subtotal">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        Ksh{(item.price * item.quantity).toFixed(2)}
                       </div>
                     </div>
                   ))}
@@ -215,6 +216,7 @@ const Orders = () => {
           />
         )}
       </div>
+      <Footer />
     </div>
   );
 };
