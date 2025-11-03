@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "./animalForm.css";
 
 const API_URL = process.env.REACT_APP_API_URL;
-const CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+//const CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
 
 const AnimalForm = ({
   animalForm,

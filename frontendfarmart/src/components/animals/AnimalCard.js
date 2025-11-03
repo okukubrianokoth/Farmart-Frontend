@@ -7,7 +7,7 @@ import './AnimalCard.css';
 
 const AnimalCard = ({ animal }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const handleCardClick = () => {

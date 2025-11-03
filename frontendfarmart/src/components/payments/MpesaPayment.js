@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const MpesaPayment = ({ order, onPaymentSuccess, onClose }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const { user } = useSelector((state) => state.auth);
+  //const { user } = useSelector((state) => state.auth);
 
   // Normalize phone number into Safaricom's required format (2547XXXXXXXX)
   const formatPhoneNumber = (phone) => {
