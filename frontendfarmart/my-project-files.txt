@@ -1,0 +1,73 @@
+.
+├── babel.config.js
+├── jest.config.js
+├── my-project-files.txt
+├── package.json
+├── package-lock.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── components
+│   │   ├── animals
+│   │   │   ├── AnimalCard.css
+│   │   │   ├── AnimalCard.js
+│   │   │   ├── AnimalFilters.css
+│   │   │   ├── AnimalFilters.js
+│   │   │   ├── animalForm.css
+│   │   │   ├── animalForm.jsx
+│   │   │   └── AnimalList.js
+│   │   ├── auth
+│   │   │   ├── Auth.css
+│   │   │   ├── Login.js
+│   │   │   └── Register.js
+│   │   ├── common
+│   │   │   ├── footer.css
+│   │   │   ├── footer.jsx
+│   │   │   ├── Navbar.css
+│   │   │   └── Navbar.jsx
+│   │   └── payments
+│   │       └── MpesaPayment.js
+│   ├── index.css
+│   ├── index.js
+│   ├── pages
+│   │   ├── about.css
+│   │   ├── about.jsx
+│   │   ├── Animals.css
+│   │   ├── Animals.js
+│   │   ├── Auth.css
+│   │   ├── Cart.css
+│   │   ├── Cart.js
+│   │   ├── FarmerDashboard.css
+│   │   ├── FarmerDashboard.jsx
+│   │   ├── Home.css
+│   │   ├── Home.js
+│   │   ├── Login.js
+│   │   ├── Orders.css
+│   │   ├── Orders.js
+│   │   ├── Profile.js
+│   │   └── Register.js
+│   ├── services
+│   │   ├── animalService.js
+│   │   ├── api.js
+│   │   ├── authService.js
+│   │   ├── cartService.js
+│   │   ├── cloudinary.js
+│   │   ├── orderService.js
+│   │   └── paymentService.js
+│   └── store
+│       ├── index.js
+│       ├── slices
+│       │   ├── animalsSlice.js
+│       │   ├── authSlice.js
+│       │   ├── cartSlice.js
+│       │   ├── ordersSlice.js
+│       │   └── uiSlice.js
+│       └── store.js
+└── vercel.json
+
+12 directories, 59 files

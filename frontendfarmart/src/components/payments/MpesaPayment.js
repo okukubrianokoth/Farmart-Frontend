@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { paymentService } from '../../services/paymentService';
 import { toast } from 'react-toastify';
 
 const MpesaPayment = ({ order, onPaymentSuccess, onClose }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  //const { user } = useSelector((state) => state.auth);
+  const stopPollingRef = useRef(false); // flag to stop polling
 
-  // Normalize phone number into Safaricom's required format (2547XXXXXXXX)
   const formatPhoneNumber = (phone) => {
     let formatted = phone.trim();
     if (formatted.startsWith('+')) formatted = formatted.replace('+', '');
@@ -30,16 +29,17 @@ const MpesaPayment = ({ order, onPaymentSuccess, onClose }) => {
     }
 
     const formattedPhone = formatPhoneNumber(phoneNumber);
-    if (!formattedPhone) return; // stop if invalid
+    if (!formattedPhone) return;
 
     setIsProcessing(true);
+    stopPollingRef.current = false; // reset stop flag
+
     try {
       console.log('📤 Initiating M-PESA payment with:', formattedPhone);
       const response = await paymentService.initiateMpesaPayment(order.id, formattedPhone);
 
       toast.info('Payment initiated! Check your phone for STK Push.');
 
-      // Start polling with a max of 20 attempts (~1 minute)
       pollPaymentStatus(response.data.checkout_request_id);
     } catch (error) {
       console.error('Payment failed:', error);
@@ -49,8 +49,13 @@ const MpesaPayment = ({ order, onPaymentSuccess, onClose }) => {
     }
   };
 
-  // Polling function with attempt limit
   const pollPaymentStatus = async (checkoutRequestId, attempt = 1, maxAttempts = 20) => {
+    if (stopPollingRef.current) {
+      console.log('⏹️ Polling cancelled by user');
+      setIsProcessing(false);
+      return;
+    }
+
     if (attempt > maxAttempts) {
       toast.warning('Payment is still pending. Please check your M-Pesa app.');
       setIsProcessing(false);
@@ -61,23 +66,29 @@ const MpesaPayment = ({ order, onPaymentSuccess, onClose }) => {
       const response = await paymentService.checkPaymentStatus(checkoutRequestId);
       console.log('🔎 Payment status:', response.data);
 
-      const status = response.data.payment_status || response.data.ResultCode;
-      if (status === 'paid' || status === '0') {
+      const status = response.data.payment_status;
+
+      if (status === 'paid') {
         toast.success('✅ Payment completed successfully!');
         onPaymentSuccess();
         setIsProcessing(false);
       } else if (status === 'failed') {
-        toast.error('❌ Payment failed.');
+        toast.error('❌ Payment failed or was cancelled.');
         setIsProcessing(false);
       } else {
-        // still pending → wait and retry
+        // still pending → retry after 3 seconds
         setTimeout(() => pollPaymentStatus(checkoutRequestId, attempt + 1, maxAttempts), 3000);
       }
     } catch (error) {
       console.error('Payment status check failed:', error);
-      // Retry silently
       setTimeout(() => pollPaymentStatus(checkoutRequestId, attempt + 1, maxAttempts), 3000);
     }
+  };
+
+  const cancelPayment = () => {
+    stopPollingRef.current = true;
+    setIsProcessing(false);
+    toast.info('Payment polling cancelled.');
   };
 
   return (
@@ -117,16 +128,29 @@ const MpesaPayment = ({ order, onPaymentSuccess, onClose }) => {
             onClick={handlePayment}
             disabled={isProcessing}
           >
-            {isProcessing ? 'Processing...' : 'Pay with M-Pesa'}
+            {isProcessing ? 'Processing payment...' : 'Pay with M-Pesa'}
           </button>
           <button
             className="btn btn-secondary"
+            onClick={cancelPayment}
+            disabled={!isProcessing}
+          >
+            Cancel Payment
+          </button>
+          <button
+            className="btn btn-light"
             onClick={onClose}
             disabled={isProcessing}
           >
-            Cancel
+            Close
           </button>
         </div>
+
+        {isProcessing && (
+          <p style={{ marginTop: '10px', color: '#555' }}>
+            ⏳ Payment is pending... please check your M-Pesa prompt.
+          </p>
+        )}
       </div>
     </div>
   );
