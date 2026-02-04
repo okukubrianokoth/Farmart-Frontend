@@ -23,24 +23,37 @@ const AnimalForm = ({
   const formData = new FormData();
   formData.append("image", file);
 
+  // 1. Get the token from localStorage
   const token = localStorage.getItem("token");
 
   try {
     setUploading(true);
     const res = await fetch(`${API_URL}/upload`, {
       method: "POST",
+      // 2. Add the Authorization header to the request
       headers: {
         Authorization: `Bearer ${token}`,
       },
       body: formData,
     });
 
-    const data = await res.json();
-    if (res.ok && data.image_url) {
-      setAnimalForm({ ...animalForm, image_url: data.image_url });
-      toast.success("Image uploaded successfully!");
+    if (res.ok) {
+      const data = await res.json();
+      if (data.image_url) {
+        setAnimalForm({ ...animalForm, image_url: data.image_url });
+        toast.success("Image uploaded successfully!");
+      } else {
+        toast.error("Upload succeeded but no image URL was returned.");
+      }
     } else {
-      toast.error(data.error || "Upload failed. Try again.");
+      let errorMsg = `Upload failed: ${res.statusText}`;
+      try {
+        const errorData = await res.json();
+        errorMsg = errorData.error || errorMsg;
+      } catch (jsonError) {
+        // The error response wasn't JSON. The statusText is already set.
+      }
+      toast.error(errorMsg);
     }
   } catch (err) {
     console.error(err);
@@ -59,7 +72,7 @@ const AnimalForm = ({
               <label>Animal Name *</label>
               <input
                 type="text"
-                value={animalForm.name}
+                value={animalForm.name || ""}
                 onChange={(e) =>
                   setAnimalForm({ ...animalForm, name: e.target.value })
                 }
@@ -69,7 +82,7 @@ const AnimalForm = ({
             <div className="form-group">
               <label>Animal Type *</label>
               <select
-                value={animalForm.animal_type}
+                value={animalForm.animal_type || ""}
                 onChange={(e) =>
                   setAnimalForm({
                     ...animalForm,
@@ -78,6 +91,9 @@ const AnimalForm = ({
                 }
                 required
               >
+                <option value="" disabled>
+                  Select an animal type
+                </option>
                 <option value="cattle">Cattle</option>
                 <option value="poultry">Poultry</option>
                 <option value="swine">Swine</option>
@@ -92,7 +108,7 @@ const AnimalForm = ({
               <label>Breed</label>
               <input
                 type="text"
-                value={animalForm.breed}
+                value={animalForm.breed || ""}
                 onChange={(e) =>
                   setAnimalForm({ ...animalForm, breed: e.target.value })
                 }
@@ -102,7 +118,7 @@ const AnimalForm = ({
               <label>Age (months)</label>
               <input
                 type="number"
-                value={animalForm.age}
+                value={animalForm.age || ""}
                 onChange={(e) =>
                   setAnimalForm({ ...animalForm, age: e.target.value })
                 }
@@ -115,7 +131,7 @@ const AnimalForm = ({
               <label>Weight (kg)</label>
               <input
                 type="number"
-                value={animalForm.weight}
+                value={animalForm.weight || ""}
                 onChange={(e) =>
                   setAnimalForm({ ...animalForm, weight: e.target.value })
                 }
@@ -125,7 +141,7 @@ const AnimalForm = ({
               <label>Price (KES)</label>
               <input
                 type="number"
-                value={animalForm.price}
+                value={animalForm.price || ""}
                 onChange={(e) =>
                   setAnimalForm({ ...animalForm, price: e.target.value })
                 }
@@ -137,7 +153,7 @@ const AnimalForm = ({
             <label>Quantity</label>
             <input
               type="number"
-              value={animalForm.quantity}
+              value={animalForm.quantity || ""}
               onChange={(e) =>
                 setAnimalForm({ ...animalForm, quantity: e.target.value })
               }
@@ -162,7 +178,7 @@ const AnimalForm = ({
             <label>Description</label>
             <textarea
               rows="3"
-              value={animalForm.description}
+              value={animalForm.description || ""}
               onChange={(e) =>
                 setAnimalForm({ ...animalForm, description: e.target.value })
               }

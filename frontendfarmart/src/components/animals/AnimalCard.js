@@ -1,13 +1,13 @@
 //import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addToCart } from '../../store/slices/cartSlice';
+import { cartService } from '../../services/cartService';
 import { toast } from 'react-toastify';
 import './AnimalCard.css';
 
 const AnimalCard = ({ animal }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const handleCardClick = () => {
@@ -29,12 +29,14 @@ const AnimalCard = ({ animal }) => {
     }
 
     try {
-      console.log('🛒 Adding to cart:', animal.id);
-      await dispatch(addToCart({ animalId: animal.id })).unwrap();
+      console.log(' Adding to cart:', animal.id);
+      const response = await cartService.addToCart(animal.id);
+      console.log(' Add to cart response:', response.data);
       toast.success(`${animal.name} added to cart!`);
     } catch (error) {
-      console.error('❌ Failed to add to cart:', error);
-      toast.error(error || 'Failed to add to cart');
+      console.error(' Failed to add to cart:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to add to cart';
+      toast.error(errorMessage);
     }
   };
 
@@ -45,7 +47,6 @@ const AnimalCard = ({ animal }) => {
           src={animal.image_url || 'https://via.placeholder.com/300x200?text=Animal+Image'} 
           alt={animal.name}
           onError={(e) => {
-            e.target.onerror = null;
             e.target.src = 'https://via.placeholder.com/300x200?text=Animal+Image';
           }}
         />
