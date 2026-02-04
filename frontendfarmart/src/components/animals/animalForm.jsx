@@ -23,10 +23,15 @@ const AnimalForm = ({
   const formData = new FormData();
   formData.append("image", file);
 
+  const token = localStorage.getItem("token");
+
   try {
     setUploading(true);
     const res = await fetch(`${API_URL}/upload`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     });
 

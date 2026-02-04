@@ -11,7 +11,7 @@ export const login = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.error('❌ Redux: Login failed', error);
-      const errorMessage = error.response?.data?.message || error.message || 'Login failed';
+      const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message || 'Login failed';
       return rejectWithValue(errorMessage);
     }
   }
